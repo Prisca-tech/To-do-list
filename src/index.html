@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+    <head>
     <meta charset="utf-8">
-    <title><% htmlWebpackPlugin.options.title%></title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"><script defer src="bundle.js"></script></head>
+    <title>htmlWebpackPlugin.options.title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- internal style -->
+  <link rel="stylesheet" href="../src/styles/style.css">
+  </head>
   <body>
-    <div class="container">
-        <h3>Hello there</h3>
-        
+    <section class="container">
+      <h1>To-do-list</h1>
+    <div >
+      <input type="text" placeholder="Add to-do"><br><br>
+
+      <div class="list" id="list"></div>
+
+      <button type="button">Clear all completed</button>
     </div>
+  </section>
+    <script type="module" src="index.js"></script>
   </body>
 </html>

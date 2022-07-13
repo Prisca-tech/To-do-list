@@ -1,3 +1,42 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
 body {
-    background-color: bisque;
+  background-color: rgb(116, 114, 112);
+}
+
+.container {
+  margin: 20px;
+  border: 2px solid white;
+  padding: 20px;
+}
+
+.list {
+  font-size: 20px;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+input[type=text] {
+  padding: 10px;
+  width: 50%;
+}
+
+input[type=checkbox] {
+  padding: 10px;
+  width: 5%;
+  height: 18px;
+}
+
+button {
+  padding: 10px;
+  width: 50%;
+  font-size: 15px;
+  margin-top: 10px;
 }
