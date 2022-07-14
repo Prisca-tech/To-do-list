@@ -1,5 +1,4 @@
-const todo = [
-  {
+const todo = [   {
     description: 'wash the dishes',
     completed: true,
     index: 0,
