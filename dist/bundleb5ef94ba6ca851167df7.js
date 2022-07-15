@@ -15,14 +15,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _variables_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./variables.js */ "./modules/variables.js");
 /* harmony import */ var _removeTodo_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./removeTodo.js */ "./modules/removeTodo.js");
 /* harmony import */ var _edit_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit.js */ "./modules/edit.js");
+/* harmony import */ var _interactive_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./interactive.js */ "./modules/interactive.js");
+
 
 
 
 
 var addTodoList = function addTodoList(value) {
-  _variables_js__WEBPACK_IMPORTED_MODULE_0__.todocontainer.innerHTML += " <div class = 'list-item'><input type= 'checkbox' class='checkbox'><p class= 'todo-desc'>".concat(value.description, "</p>\n    <i class = 'bi bi-three-dots-vertical'></i><i class ='bi bi-trash'></i></div>\n    ");
+  _variables_js__WEBPACK_IMPORTED_MODULE_0__.todocontainer.innerHTML += " <div class = 'list-item'><input type='checkbox' class='checkbox'><p class='todo-desc'>".concat(value.description, "</p>\n    <i class = 'bi bi-three-dots-vertical'></i><i class ='bi bi-trash'></i></div>\n    ");
   var editIcon = Array.from(document.querySelectorAll('.bi-three-dots-vertical'));
   var deleteIcon = Array.from(document.querySelectorAll('.bi-trash'));
+  var checkbox = Array.from(document.querySelectorAll('.checkbox'));
   editIcon.forEach(function (icon) {
     icon.addEventListener('click', function () {
       var currentListItem = icon.closest('.list-item');
@@ -33,6 +36,13 @@ var addTodoList = function addTodoList(value) {
     icon.addEventListener('click', function () {
       var currentListItem = icon.closest('.list-item');
       (0,_removeTodo_js__WEBPACK_IMPORTED_MODULE_1__["default"])(currentListItem);
+    });
+  });
+  checkbox.forEach(function (check) {
+    var currentListItem = check.closest('.list-item');
+    (0,_interactive_js__WEBPACK_IMPORTED_MODULE_3__.checkCompletedTask)(check, currentListItem);
+    check.addEventListener('change', function (e) {
+      (0,_interactive_js__WEBPACK_IMPORTED_MODULE_3__.completedTask)(currentListItem, e);
     });
   });
 };
@@ -79,6 +89,59 @@ var edit = function edit(currentListItem) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (edit);
+
+/***/ }),
+
+/***/ "./modules/interactive.js":
+/*!********************************!*\
+  !*** ./modules/interactive.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "checkCompletedTask": () => (/* binding */ checkCompletedTask),
+/* harmony export */   "completedTask": () => (/* binding */ completedTask)
+/* harmony export */ });
+/* harmony import */ var _variables_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./variables.js */ "./modules/variables.js");
+
+
+var completedTask = function completedTask(listItem, e) {
+  var paragraph = listItem.querySelector('p');
+  paragraph.classList.toggle('cancelList');
+  var newTodo = {};
+  _variables_js__WEBPACK_IMPORTED_MODULE_0__.tasks.forEach(function (element) {
+    if (element.description === paragraph.textContent) {
+      newTodo = element;
+    }
+  });
+
+  if (e.target.checked) {
+    newTodo.completed = true;
+  } else {
+    newTodo.completed = false;
+  }
+
+  localStorage.setItem('tasks', JSON.stringify(_variables_js__WEBPACK_IMPORTED_MODULE_0__.tasks));
+  console.log(localStorage.getItem('tasks'));
+};
+
+var checkCompletedTask = function checkCompletedTask(checkbox, listItem) {
+  var paragraph = listItem.querySelector('p');
+  var newTodo = {};
+  _variables_js__WEBPACK_IMPORTED_MODULE_0__.tasks.forEach(function (element) {
+    if (element.description === paragraph.textContent) {
+      newTodo = element;
+    }
+  });
+
+  if (newTodo.completed) {
+    checkbox.checked = true;
+    paragraph.classList.add('cancelList');
+  }
+};
+
+
 
 /***/ }),
 
@@ -136,7 +199,9 @@ var TodoObject = /*#__PURE__*/_createClass(function TodoObject(description) {
 
   _classCallCheck(this, TodoObject);
 
-  this.description = description, this.completed = completed, this.index = index;
+  this.description = description;
+  this.completed = completed;
+  this.index = index;
 });
 
 
@@ -178,7 +243,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n  font-family: \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif;\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n}\n\nbody {\n  background-color: rgb(116, 114, 112);\n}\n\n.heading {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\nform {\n  width: 50%;\n}\n\n.container {\n  margin: 20px;\n  border: 2px solid white;\n}\n\n.list {\n  display: flex;\n  flex-direction: column;\n  width: 50%;\n  font-size: 20px;\n}\n\n.list-item {\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  padding: 20px 0;\n  box-shadow: 0 10px 20px 0 #888888;\n}\n\nh1 {\n  font-size: 40px;\n}\n\ninput[type=text] {\n  padding: 10px;\n  width: 90%;\n}\n\ninput[type=checkbox] {\n  padding: 10px;\n  width: 5%;\n  height: 18px;\n}\n\nbutton {\n  padding: 10px;\n  width: 50%;\n  font-size: 15px;\n  margin-top: 10px;\n  font-weight: 400;\n}\n\n@media screen and (max-width: 767px) {\n  form,\n.list,\n.list-item {\n    width: 100%;\n  }\n}", "",{"version":3,"sources":["webpack://./src/styles/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAA;EACA,4DAAA;EACA,UAAA;EACA,SAAA;EACA,qBAAA;AACF;;AAEA;EACE,oCAAA;AACF;;AAEA;EACE,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACF;;AAEA;EACE,UAAA;AACF;;AAEA;EACE,YAAA;EACA,uBAAA;AACF;;AAEA;EACE,aAAA;EACA,sBAAA;EACA,UAAA;EACA,eAAA;AACF;;AAEA;EACE,aAAA;EACA,8BAAA;EACA,WAAA;EACA,eAAA;EACA,iCAAA;AACF;;AAGA;EACE,eAAA;AAAF;;AAGA;EACE,aAAA;EACA,UAAA;AAAF;;AAGA;EACE,aAAA;EACA,SAAA;EACA,YAAA;AAAF;;AAGA;EACE,aAAA;EACA,UAAA;EACA,eAAA;EACA,gBAAA;EACA,gBAAA;AAAF;;AAGA;EACE;;;IAGE,WAAA;EAAF;AACF","sourcesContent":["* {\r\n  box-sizing: border-box;\r\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbody {\r\n  background-color: rgb(116, 114, 112);\r\n}\r\n\r\n.heading{\r\n  width: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\nform {\r\n  width: 50%;\r\n}\r\n\r\n.container {\r\n  margin: 20px;\r\n  border: 2px solid white;\r\n}\r\n\r\n.list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 50%;\r\n  font-size: 20px;\r\n}\r\n\r\n.list-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n  padding: 20px 0;\r\n  box-shadow: 0 10px 20px 0 #888888;\r\n\r\n}\r\n\r\nh1 {\r\n  font-size: 40px;\r\n}\r\n\r\ninput[type=text] {\r\n  padding: 10px;\r\n  width: 90%;\r\n}\r\n\r\ninput[type=checkbox] {\r\n  padding: 10px;\r\n  width: 5%;\r\n  height: 18px;\r\n}\r\n\r\nbutton {\r\n  padding: 10px;\r\n  width: 50%;\r\n  font-size: 15px;\r\n  margin-top: 10px;\r\n  font-weight: 400;\r\n}\r\n\r\n@media screen and (max-width: 767px) {\r\n  form,\r\n  .list,\r\n  .list-item {\r\n    width: 100%;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "* {\n  box-sizing: border-box;\n  font-family: \"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif;\n  padding: 0;\n  margin: 0;\n  list-style-type: none;\n}\n\nbody {\n  background-color: rgb(116, 114, 112);\n}\n\n.heading {\n  width: 100%;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex-direction: column;\n}\n\nform {\n  width: 50%;\n}\n\n.container {\n  margin: 20px;\n  border: 2px solid white;\n}\n\n.list {\n  display: flex;\n  flex-direction: column;\n  width: 50%;\n  font-size: 20px;\n}\n\n.list-item {\n  display: flex;\n  justify-content: space-between;\n  width: 100%;\n  padding: 20px 0;\n  box-shadow: 0 10px 20px 0 #888;\n}\n\nh1 {\n  font-size: 40px;\n}\n\ninput[type=text] {\n  padding: 10px;\n  width: 90%;\n}\n\ninput[type=checkbox] {\n  padding: 10px;\n  width: 5%;\n  height: 18px;\n}\n\nbutton {\n  padding: 10px;\n  width: 50%;\n  font-size: 15px;\n  margin-top: 10px;\n  font-weight: 400;\n}\n\n@media screen and (max-width: 767px) {\n  form,\n.list,\n.list-item {\n    width: 100%;\n  }\n}", "",{"version":3,"sources":["webpack://./src/styles/style.css"],"names":[],"mappings":"AAAA;EACE,sBAAA;EACA,4DAAA;EACA,UAAA;EACA,SAAA;EACA,qBAAA;AACF;;AAEA;EACE,oCAAA;AACF;;AAEA;EACE,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,sBAAA;AACF;;AAEA;EACE,UAAA;AACF;;AAEA;EACE,YAAA;EACA,uBAAA;AACF;;AAEA;EACE,aAAA;EACA,sBAAA;EACA,UAAA;EACA,eAAA;AACF;;AAEA;EACE,aAAA;EACA,8BAAA;EACA,WAAA;EACA,eAAA;EACA,8BAAA;AACF;;AAEA;EACE,eAAA;AACF;;AAEA;EACE,aAAA;EACA,UAAA;AACF;;AAEA;EACE,aAAA;EACA,SAAA;EACA,YAAA;AACF;;AAEA;EACE,aAAA;EACA,UAAA;EACA,eAAA;EACA,gBAAA;EACA,gBAAA;AACF;;AAEA;EACE;;;IAGE,WAAA;EACF;AACF","sourcesContent":["* {\r\n  box-sizing: border-box;\r\n  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\r\n  padding: 0;\r\n  margin: 0;\r\n  list-style-type: none;\r\n}\r\n\r\nbody {\r\n  background-color: rgb(116, 114, 112);\r\n}\r\n\r\n.heading {\r\n  width: 100%;\r\n  display: flex;\r\n  justify-content: center;\r\n  align-items: center;\r\n  flex-direction: column;\r\n}\r\n\r\nform {\r\n  width: 50%;\r\n}\r\n\r\n.container {\r\n  margin: 20px;\r\n  border: 2px solid white;\r\n}\r\n\r\n.list {\r\n  display: flex;\r\n  flex-direction: column;\r\n  width: 50%;\r\n  font-size: 20px;\r\n}\r\n\r\n.list-item {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  width: 100%;\r\n  padding: 20px 0;\r\n  box-shadow: 0 10px 20px 0 #888;\r\n}\r\n\r\nh1 {\r\n  font-size: 40px;\r\n}\r\n\r\ninput[type=text] {\r\n  padding: 10px;\r\n  width: 90%;\r\n}\r\n\r\ninput[type=checkbox] {\r\n  padding: 10px;\r\n  width: 5%;\r\n  height: 18px;\r\n}\r\n\r\nbutton {\r\n  padding: 10px;\r\n  width: 50%;\r\n  font-size: 15px;\r\n  margin-top: 10px;\r\n  font-weight: 400;\r\n}\r\n\r\n@media screen and (max-width: 767px) {\r\n  form,\r\n  .list,\r\n  .list-item {\r\n    width: 100%;\r\n  }\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -777,6 +842,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var textInput = document.querySelector('input');
 var enterIcon = document.querySelector('.input');
+var clearButton = document.querySelector('.clearButton');
 textInput.addEventListener('keypress', function (e) {
   if (e.key === 'Enter' && textInput.value) {
     e.preventDefault();
@@ -800,14 +866,24 @@ enterIcon.addEventListener('click', function () {
     textInput.value = null;
   }
 });
-console.log({
-  tasks: _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks
-});
 _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks.forEach(function (element) {
   (0,_modules_addTodoList_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
+});
+clearButton.addEventListener('click', function () {
+  _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.todocontainer.innerHTML = '';
+  var newtasks = _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks.filter(function (task) {
+    return task.completed === true;
+  });
+  newtasks.forEach(function (element) {
+    _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks.splice(_modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks.indexOf(element), 1);
+  });
+  localStorage.setItem('tasks', JSON.stringify(_modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks));
+  _modules_variables_js__WEBPACK_IMPORTED_MODULE_2__.tasks.forEach(function (element) {
+    (0,_modules_addTodoList_js__WEBPACK_IMPORTED_MODULE_0__["default"])(element);
+  });
 });
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundle9e2d2080d4fc1336a649.js.map
+//# sourceMappingURL=bundleb5ef94ba6ca851167df7.js.map
