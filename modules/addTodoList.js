@@ -25,11 +25,11 @@ const addTodoList = (value) => {
     });
   });
 
-  checkbox.forEach(check => {
+  checkbox.forEach((check) => {
     const currentListItem = check.closest('.list-item');
     checkCompletedTask(check, currentListItem);
     check.addEventListener('change', (e) => {
-        completedTask(currentListItem, e);
+      completedTask(currentListItem, e);
     });
   });
 };

@@ -123,7 +123,6 @@ var completedTask = function completedTask(listItem, e) {
   }
 
   localStorage.setItem('tasks', JSON.stringify(_variables_js__WEBPACK_IMPORTED_MODULE_0__.tasks));
-  console.log(localStorage.getItem('tasks'));
 };
 
 var checkCompletedTask = function checkCompletedTask(checkbox, listItem) {
@@ -886,4 +885,4 @@ clearButton.addEventListener('click', function () {
 
 /******/ })()
 ;
-//# sourceMappingURL=bundleb5ef94ba6ca851167df7.js.map
+//# sourceMappingURL=bundlefaef352a837824f790ea.js.map

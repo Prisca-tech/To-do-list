@@ -1,6 +1,6 @@
 import addTodoList from '../modules/addTodoList.js';
 import TodoObject from '../modules/todoObject.js';
-import { tasks, todocontainer} from '../modules/variables.js';
+import { tasks, todocontainer } from '../modules/variables.js';
 import './styles/style.css';
 
 const textInput = document.querySelector('input');
