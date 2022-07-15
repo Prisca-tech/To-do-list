@@ -23,6 +23,9 @@ const addTodoList = (value) => {
       deleteItem(currentListItem);
     });
   });
+
+  const newTodo = {};
+  newTodo.completed = false;
 };
 
 export default addTodoList;
