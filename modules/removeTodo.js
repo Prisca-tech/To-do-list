@@ -1,21 +1,21 @@
-import { task } from './variables.js';
+import { tasks } from './variables.js';
 
 const deleteItem = (currentListItem) => {
-    const paragraph = currentListItem.querySelector('p');
-    const initial = paragraph.textContent;
+  const paragraph = currentListItem.querySelector('p');
+  const initial = paragraph.textContent;
 
-    task.forEach((element) => {
-        if (element.description === initial) {
-            task.splice(tasks.indexOf(element), 1);
-        }
-    });
+  tasks.forEach((element) => {
+    if (element.description === initial) {
+      tasks.splice(tasks.indexOf(element), 1);
+    }
+  });
 
-    task.forEach((element, ind) => {
-        element.index = ind + 1;
-    });
+  tasks.forEach((element, ind) => {
+    element.index = ind + 1;
+  });
 
-    localStorage.setItem('task', JSON.stringify(tasks));
-    currentListItem.remove();
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  currentListItem.remove();
 };
 
 export default deleteItem;

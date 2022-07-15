@@ -1,2 +1,2 @@
-const todocontainer = document.getElementById('list');
-const tasks = JSON.parse(localStorage.getItem('tasks'));
+export const todocontainer = document.getElementById('list');
+export const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
