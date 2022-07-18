@@ -1,10 +1,11 @@
 import addTodoList from '../modules/addTodoList.js';
 import TodoObject from '../modules/todoObject.js';
-import { tasks } from '../modules/variables.js';
+import { tasks, todocontainer } from '../modules/variables.js';
 import './styles/style.css';
 
 const textInput = document.querySelector('input');
 const enterIcon = document.querySelector('.input');
+const clearButton = document.querySelector('.clearButton');
 
 textInput.addEventListener('keypress', (e) => {
   if (e.key === 'Enter' && textInput.value) {
@@ -33,4 +34,16 @@ enterIcon.addEventListener('click', () => {
 
 tasks.forEach((element) => {
   addTodoList(element);
+});
+
+clearButton.addEventListener('click', () => {
+  todocontainer.innerHTML = '';
+  const newtasks = tasks.filter((task) => task.completed === true);
+  newtasks.forEach((element) => {
+    tasks.splice(tasks.indexOf(element), 1);
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  tasks.forEach((element) => {
+    addTodoList(element);
+  });
 });
