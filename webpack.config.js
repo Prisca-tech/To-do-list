@@ -1,5 +1,6 @@
 const path = require('path');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   mode: 'development',
@@ -17,6 +18,7 @@ module.exports = {
     static: {
       directory: path.resolve(__dirname, 'dist'),
     },
+    port: 3000,
     open: true,
     hot: true,
     compress: true,
@@ -25,12 +27,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
-        ],
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.js$/,
@@ -49,11 +47,11 @@ module.exports = {
     ],
   },
   plugins: [
-    new HTMLWebpackPlugin({
-      title: 'Output Management',
+    new HtmlWebpackPlugin({
+      title: 'Webpack App',
       filename: 'index.html',
-      template: './src/index.html',
+      template: 'src/index.html',
     }),
-
+    new BundleAnalyzerPlugin(),
   ],
 };

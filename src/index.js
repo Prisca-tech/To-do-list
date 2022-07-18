@@ -1,21 +1,49 @@
-import todo from '../modules/todo.js';
+import addTodoList from '../modules/addTodoList.js';
+import TodoObject from '../modules/todoObject.js';
+import { tasks, todocontainer } from '../modules/variables.js';
+import './styles/style.css';
 
-const input = document.querySelector('#list');
-const activity = () => {
-  let addActivity = '';
+const textInput = document.querySelector('input');
+const enterIcon = document.querySelector('.input');
+const clearButton = document.querySelector('.clearButton');
 
-  for (let i = 0; i < todo.length; i += 1) {
-    const list = `
-        <div class = 'activity'> 
-          <p> <input type ='checkbox'>${todo[i].description}</p>
-      
-        </div>
-        `;
-
-    addActivity += list;
+textInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter' && textInput.value) {
+    e.preventDefault();
+    const newTodo = new TodoObject();
+    newTodo.description = textInput.value;
+    newTodo.index = tasks.length + 1;
+    addTodoList(newTodo);
+    tasks.push(newTodo);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    textInput.value = null;
   }
+});
 
-  input.innerHTML = addActivity;
-};
+enterIcon.addEventListener('click', () => {
+  if (textInput.value) {
+    const newTodo = new TodoObject();
+    newTodo.description = textInput.value;
+    newTodo.index = tasks.length + 1;
+    addTodoList(newTodo);
+    tasks.push(newTodo);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    textInput.value = null;
+  }
+});
 
-activity();
+tasks.forEach((element) => {
+  addTodoList(element);
+});
+
+clearButton.addEventListener('click', () => {
+  todocontainer.innerHTML = '';
+  const newtasks = tasks.filter((task) => task.completed === true);
+  newtasks.forEach((element) => {
+    tasks.splice(tasks.indexOf(element), 1);
+  });
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+  tasks.forEach((element) => {
+    addTodoList(element);
+  });
+});
