@@ -25,6 +25,8 @@ const addTodoList = (value) => {
     });
   });
 
+  const newTodo = {};
+  newTodo.completed = false;
   checkbox.forEach((check) => {
     const currentListItem = check.closest('.list-item');
     checkCompletedTask(check, currentListItem);
